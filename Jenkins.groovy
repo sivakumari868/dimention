@@ -1,19 +1,26 @@
 pipeline {
     stages {
         stage('Checkout') {
-            checkout scm
+            steps {
+                checkout scm
+            }
         }
         stage('Validate the code'){
-            script {
-                echo 'Validated the test cases'
+            steps {
+                script {
+                    echo 'Validated the test cases'
+                }
+
             }
         }
         stage('Deploy the code') {
-            script {
-                sh '''
-                    sudo cp -pr . /var/www/html/
-                    sudo service httpd restart
-                '''
+            steps {
+                script {
+                    sh '''
+                        sudo cp -pr . /var/www/html/
+                        sudo service httpd restart
+                    '''
+                }
             }
         }
     }
