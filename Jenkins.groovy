@@ -14,7 +14,24 @@ pipeline {
 
             }
         }
-        stage('Deploy the code') {
+        stage('Deploy the Development environment') {
+            when {
+                expression { env.BRANCH_NAME == 'development' }
+            }
+            steps {
+                script {
+                    sh '''
+                        sudo cp -pr . /var/www/html/
+                        sudo service httpd restart
+                    '''
+                }
+            }
+        }
+
+        stage('Deploy the Produaction environment') {
+            when {
+                expression { env.BRANCH_NAME == 'main' }
+            }
             steps {
                 script {
                     sh '''
