@@ -41,5 +41,19 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy the UAT environment') {
+            when {
+                expression { env.BRANCH_NAME == 'uat' }
+            }
+            steps {
+                script {
+                    sh '''
+                        sudo cp -pr . /var/www/html/
+                        sudo service httpd restart
+                    '''
+                }
+            }
+        }
     }
 }
